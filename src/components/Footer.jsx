@@ -101,7 +101,7 @@ export default function Footer() {
                             {[
                                 { icon: MapPin, text: '123 Fitness Street, Bhopal, MP 462001' },
                                 { icon: Phone, text: '+91 98765 43210' },
-                                { icon: Mail, text: 'hello@ironfit.in' },
+                                { icon: Mail, text: 'badmosh559@gmail.com' },
                             ].map(({ icon: Icon, text }) => (
                                 <div key={text} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                                     <Icon size={16} color="#ff0033" style={{ marginTop: 2, flexShrink: 0 }} />
