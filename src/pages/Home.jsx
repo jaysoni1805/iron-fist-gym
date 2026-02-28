@@ -269,11 +269,11 @@ export default function Home() {
                 }} />
 
                 <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}
-                        className="grid-cols-1 lg:grid-cols-2">
+                    <div className="hero-grid">
 
                         {/* Left content */}
                         <motion.div
+                            className="hero-text"
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.9, ease: 'easeOut' }}
@@ -328,7 +328,7 @@ export default function Home() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.6, duration: 0.5 }}
-                                style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
+                                className="hero-ctas"
                             >
                                 <a href="#pricing" className="btn-primary" style={{ fontSize: 16 }}>
                                     Start Your Journey <ArrowRight size={18} />
@@ -343,7 +343,7 @@ export default function Home() {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.8, duration: 0.6 }}
-                                style={{ display: 'flex', gap: 40, marginTop: 52, flexWrap: 'wrap' }}
+                                className="hero-stats"
                             >
                                 {[
                                     { value: '2000+', label: 'Members' },
@@ -360,10 +360,11 @@ export default function Home() {
 
                         {/* Right 3D Canvas */}
                         <motion.div
+                            className="hero-canvas"
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-                            style={{ height: 440, position: 'relative' }}
+                            style={{ position: 'relative' }}
                         >
                             <Suspense fallback={
                                 <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -400,7 +401,7 @@ export default function Home() {
             </section>
 
             {/* ===== WHY CHOOSE US ===== */}
-            <section style={{ padding: '110px 24px', position: 'relative', background: '#080808' }}>
+            <section className="section-pad" style={{ position: 'relative', background: '#080808' }}>
                 <div style={{ maxWidth: 1200, margin: '0 auto' }}>
                     <FadingSection>
                         <div style={{ textAlign: 'center', marginBottom: 72 }}>
@@ -411,7 +412,7 @@ export default function Home() {
                         </div>
                     </FadingSection>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
+                    <div className="grid-4">
                         {[
                             {
                                 icon: Award,
@@ -473,7 +474,7 @@ export default function Home() {
             </section>
 
             {/* ===== TRANSFORMATION SECTION ===== */}
-            <section style={{ padding: '110px 24px', background: '#0a0a0a', overflow: 'hidden' }}>
+            <section className="section-pad" style={{ background: '#0a0a0a', overflow: 'hidden' }}>
                 <div style={{ maxWidth: 1200, margin: '0 auto' }}>
                     <FadingSection>
                         <div style={{ textAlign: 'center', marginBottom: 64 }}>
@@ -486,7 +487,7 @@ export default function Home() {
                             </p>
                         </div>
                     </FadingSection>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32 }}>
+                    <div className="transform-grid">
                         {[
                             { name: 'Priya S.', time: '6 months', before: 82, after: 64, unit: 'kg', tag: 'Fat Loss' },
                             { name: 'Rahul V.', time: '4 months', before: 68, after: 80, unit: 'kg', tag: 'Muscle Gain' },
@@ -541,7 +542,7 @@ export default function Home() {
             </section>
 
             {/* ===== PROGRAMS SECTION ===== */}
-            <section id="programs" style={{ padding: '110px 24px', background: '#080808' }}>
+            <section id="programs" className="section-pad" style={{ background: '#080808' }}>
                 <div style={{ maxWidth: 1200, margin: '0 auto' }}>
                     <FadingSection>
                         <div style={{ textAlign: 'center', marginBottom: 64 }}>
@@ -552,26 +553,20 @@ export default function Home() {
                         </div>
                     </FadingSection>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
                         {programs.map((program, i) => (
                             <FadingSection key={program.title} delay={0.1}>
                                 <div
-                                    className="glass-card"
-                                    style={{
-                                        display: 'grid',
-                                        gridTemplateColumns: i % 2 === 0 ? '380px 1fr' : '1fr 380px',
-                                        gap: 0, overflow: 'hidden', padding: 0,
-                                    }}
+                                    className={`glass-card program-card${i % 2 !== 0 ? ' reverse' : ''}`}
+                                    style={{ padding: 0, border: '1px solid rgba(255,255,255,0.08)' }}
                                 >
-                                    <div style={{ order: i % 2 === 0 ? 0 : 1 }}>
-                                        <img
-                                            src={program.image}
-                                            alt={program.title}
-                                            loading="lazy"
-                                            style={{ width: '100%', height: '100%', minHeight: 260, objectFit: 'cover', display: 'block' }}
-                                        />
-                                    </div>
-                                    <div style={{ padding: '40px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'center', order: i % 2 === 0 ? 1 : 0 }}>
+                                    <img
+                                        src={program.image}
+                                        alt={program.title}
+                                        loading="lazy"
+                                        className="program-img"
+                                    />
+                                    <div className="program-body">
                                         <span style={{
                                             display: 'inline-block', padding: '4px 12px',
                                             background: 'rgba(255,0,51,0.15)', border: '1px solid rgba(255,0,51,0.3)',
@@ -601,7 +596,7 @@ export default function Home() {
             </section>
 
             {/* ===== PRICING SECTION ===== */}
-            <section id="pricing" style={{ padding: '110px 24px' }}>
+            <section id="pricing" className="section-pad">
                 <div style={{ maxWidth: 1200, margin: '0 auto' }}>
                     <FadingSection>
                         <div style={{ textAlign: 'center', marginBottom: 64 }}>
@@ -615,7 +610,7 @@ export default function Home() {
                         </div>
                     </FadingSection>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+                    <div className="grid-3">
                         {plans.map((plan, i) => (
                             <FadingSection key={plan.name} delay={i * 0.1}>
                                 <div
@@ -700,7 +695,7 @@ export default function Home() {
             </section>
 
             {/* ===== TESTIMONIALS SECTION ===== */}
-            <section id="testimonials" style={{ padding: '110px 24px', background: '#080808' }}>
+            <section id="testimonials" className="section-pad" style={{ background: '#080808' }}>
                 <div style={{ maxWidth: 900, margin: '0 auto' }}>
                     <FadingSection>
                         <div style={{ textAlign: 'center', marginBottom: 64 }}>
@@ -720,8 +715,8 @@ export default function Home() {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -50 }}
                                 transition={{ duration: 0.4, ease: 'easeInOut' }}
-                                className="glass-card"
-                                style={{ padding: '48px 52px', textAlign: 'center' }}
+                                className="glass-card testimonial-card"
+                                style={{ textAlign: 'center' }}
                             >
                                 {/* Stars */}
                                 <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 28 }}>
@@ -795,7 +790,7 @@ export default function Home() {
             </section>
 
             {/* ===== FAQ SECTION ===== */}
-            <section style={{ padding: '110px 24px', background: '#0a0a0a' }}>
+            <section className="section-pad" style={{ background: '#0a0a0a' }}>
                 <div style={{ maxWidth: 800, margin: '0 auto' }}>
                     <FadingSection>
                         <div style={{ textAlign: 'center', marginBottom: 64 }}>
@@ -819,7 +814,7 @@ export default function Home() {
             </section>
 
             {/* ===== CONTACT SECTION ===== */}
-            <section id="contact" style={{ padding: '110px 24px', background: '#080808' }}>
+            <section id="contact" className="section-pad" style={{ background: '#080808' }}>
                 <div style={{ maxWidth: 1100, margin: '0 auto' }}>
                     <FadingSection>
                         <div style={{ textAlign: 'center', marginBottom: 64 }}>
@@ -833,7 +828,7 @@ export default function Home() {
                         </div>
                     </FadingSection>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }}>
+                    <div className="contact-grid">
                         {/* Contact Form */}
                         <FadingSection delay={0.1}>
                             <div className="glass-card" style={{ padding: '44px 48px' }}>

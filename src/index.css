@@ -35,9 +35,11 @@ body {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--accent);
   border-radius: 3px;
@@ -79,6 +81,7 @@ body {
   transform: translateY(30px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
+
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
@@ -101,6 +104,7 @@ body {
   text-decoration: none;
   letter-spacing: 0.5px;
 }
+
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(255, 0, 51, 0.4);
@@ -121,6 +125,7 @@ body {
   transition: all 0.3s ease;
   text-decoration: none;
 }
+
 .btn-outline:hover {
   border-color: var(--accent);
   color: var(--accent);
@@ -139,11 +144,13 @@ body {
   transition: all 0.3s ease;
   outline: none;
 }
+
 .form-input:focus {
   border-color: var(--accent);
   background: rgba(255, 0, 51, 0.05);
   box-shadow: 0 0 0 3px rgba(255, 0, 51, 0.1);
 }
+
 .form-input::placeholder {
   color: rgba(255, 255, 255, 0.35);
 }
@@ -161,4 +168,303 @@ body {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   margin-bottom: 16px;
+}
+
+/* =============================================
+   RESPONSIVE LAYOUT SYSTEM
+   Mobile-first: base=320px, sm=480px, md=768px, lg=1024px
+   ============================================= */
+
+/* Global overflow lock */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* ---- HERO SECTION ---- */
+.hero-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 40px;
+}
+
+.hero-text {
+  order: 1;
+  width: 100%;
+}
+
+.hero-canvas {
+  order: 2;
+  width: 100%;
+  height: 280px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+
+.hero-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.hero-ctas a,
+.hero-ctas button {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ---- SECTION PADDING ---- */
+.section-pad {
+  padding: 64px 16px;
+}
+
+/* ---- GRID SYSTEMS ---- */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ---- PROGRAMS ---- */
+.program-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.program-card .program-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  order: 0;
+}
+
+.program-card .program-body {
+  padding: 28px 24px;
+  order: 1;
+}
+
+/* ---- CONTACT SECTION ---- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* ---- TRANSFORMATION ---- */
+.transform-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* ---- TESTIMONIAL CARD ---- */
+.testimonial-card {
+  padding: 32px 24px;
+}
+
+/* ---- BUTTONS MOBILE ---- */
+.btn-primary,
+.btn-outline {
+  min-height: 48px;
+  padding: 12px 24px;
+  font-size: 14px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+/* ---- NAVBAR MOBILE ---- */
+.mobile-menu-panel {
+  position: fixed;
+  inset: 0;
+  top: 72px;
+  background: rgba(10, 10, 10, 0.98);
+  backdrop-filter: blur(20px);
+  z-index: 40;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+/* ---- MAX WIDTHS ---- */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---- IMAGES ---- */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================
+   MOBILE: 480px+
+   ======================== */
+@media (min-width: 480px) {
+  .hero-canvas {
+    height: 320px;
+  }
+
+  .section-pad {
+    padding: 72px 20px;
+  }
+
+  .hero-ctas {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .hero-ctas a,
+  .hero-ctas button {
+    width: auto;
+  }
+}
+
+/* ========================
+   TABLET: 768px+
+   ======================== */
+@media (min-width: 768px) {
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: left;
+    align-items: center;
+  }
+
+  .hero-text {
+    order: 0;
+  }
+
+  .hero-canvas {
+    order: 1;
+    height: 440px;
+  }
+
+  .hero-stats {
+    justify-content: flex-start;
+  }
+
+  .hero-ctas {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .hero-ctas a,
+  .hero-ctas button {
+    width: auto;
+  }
+
+  .section-pad {
+    padding: 96px 32px;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .program-card {
+    flex-direction: row;
+  }
+
+  .program-card.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .program-card .program-img {
+    width: 340px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .transform-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .testimonial-card {
+    padding: 48px 52px;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    font-size: 15px;
+    padding: 14px 32px;
+  }
+
+  .container {
+    padding: 0 24px;
+  }
+}
+
+/* ========================
+   DESKTOP: 1024px+
+   ======================== */
+@media (min-width: 1024px) {
+  .section-pad {
+    padding: 110px 24px;
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .program-card .program-img {
+    width: 380px;
+  }
+
+  .container {
+    padding: 0 24px;
+  }
 }
