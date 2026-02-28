@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Plus, Search, Edit2, Trash2, X, Check, AlertCircle, ChevronUp, ChevronDown } from 'lucide-react'
+import { Plus, Search, Edit2, Trash2, X, Check, AlertCircle, ChevronUp, ChevronDown, Download } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 
 const PLANS = ['Basic', 'Standard', 'Premium']
@@ -261,6 +261,28 @@ export default function Members() {
         fetchMembers()
     }
 
+    const exportToCSV = () => {
+        const headers = ['Name', 'Phone', 'Email', 'Plan', 'Join Date', 'Expiry Date', 'Amount', 'Status']
+        const rows = filtered.map((m) => [
+            m.name || '',
+            m.phone || '',
+            m.email || '',
+            m.plan || '',
+            m.join_date || '',
+            m.expiry_date || '',
+            m.payment_amount || '',
+            m.status || '',
+        ])
+        const csv = [headers, ...rows].map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n')
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `ironfit-members-${new Date().toISOString().split('T')[0]}.csv`
+        a.click()
+        URL.revokeObjectURL(url)
+    }
+
     const filtered = members.filter((m) => {
         const matchSearch = !search || m.name?.toLowerCase().includes(search.toLowerCase()) || m.phone?.includes(search) || m.email?.toLowerCase().includes(search.toLowerCase())
         const matchStatus = filterStatus === 'all' || m.status === filterStatus
@@ -292,17 +314,32 @@ export default function Members() {
                         {members.length} total members
                     </p>
                 </div>
-                <button
-                    onClick={() => { setEditMember(null); setModalOpen(true) }}
-                    style={{
-                        display: 'flex', alignItems: 'center', gap: 8, padding: '11px 22px',
-                        background: 'linear-gradient(135deg, #ff0033, #cc0025)',
-                        border: 'none', borderRadius: 10, color: 'white',
-                        fontWeight: 600, fontSize: 14, cursor: 'pointer',
-                    }}
-                >
-                    <Plus size={17} /> Add Member
-                </button>
+                <div style={{ display: 'flex', gap: 10 }}>
+                    <button
+                        onClick={exportToCSV}
+                        style={{
+                            display: 'flex', alignItems: 'center', gap: 7, padding: '11px 18px',
+                            background: 'rgba(255,255,255,0.06)',
+                            border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, color: 'rgba(255,255,255,0.75)',
+                            fontWeight: 600, fontSize: 14, cursor: 'pointer', transition: 'all 0.2s',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'white' }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.75)' }}
+                    >
+                        <Download size={16} /> Export CSV
+                    </button>
+                    <button
+                        onClick={() => { setEditMember(null); setModalOpen(true) }}
+                        style={{
+                            display: 'flex', alignItems: 'center', gap: 8, padding: '11px 22px',
+                            background: 'linear-gradient(135deg, #ff0033, #cc0025)',
+                            border: 'none', borderRadius: 10, color: 'white',
+                            fontWeight: 600, fontSize: 14, cursor: 'pointer',
+                        }}
+                    >
+                        <Plus size={17} /> Add Member
+                    </button>
+                </div>
             </div>
 
             {/* Filters */}
@@ -394,9 +431,10 @@ export default function Members() {
                                         style={{
                                             borderBottom: '1px solid rgba(255,255,255,0.04)',
                                             transition: 'background 0.15s',
+                                            background: m.status === 'expired' ? 'rgba(239,68,68,0.04)' : 'transparent',
                                         }}
-                                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.025)' }}
-                                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
+                                        onMouseEnter={(e) => { e.currentTarget.style.background = m.status === 'expired' ? 'rgba(239,68,68,0.08)' : 'rgba(255,255,255,0.025)' }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.background = m.status === 'expired' ? 'rgba(239,68,68,0.04)' : 'transparent' }}
                                     >
                                         <td style={{ padding: '14px 16px' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

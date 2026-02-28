@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Zap } from 'lucide-react'
 
@@ -102,8 +102,9 @@ export default function Navbar() {
 
                     {/* CTA */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <Link
-                            to="/admin/login"
+                        <button
+                            onClick={() => handleNavClick('#pricing')}
+                            className="hidden md:flex"
                             style={{
                                 padding: '10px 24px',
                                 background: 'linear-gradient(135deg, #ff0033, #cc0025)',
@@ -111,21 +112,22 @@ export default function Navbar() {
                                 fontWeight: 600,
                                 fontSize: 14,
                                 borderRadius: 8,
-                                textDecoration: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
                                 transition: 'all 0.3s ease',
                                 letterSpacing: '0.3px',
                             }}
                             onMouseEnter={(e) => {
-                                e.target.style.transform = 'translateY(-2px)'
-                                e.target.style.boxShadow = '0 6px 24px rgba(255,0,51,0.4)'
+                                e.currentTarget.style.transform = 'translateY(-2px)'
+                                e.currentTarget.style.boxShadow = '0 6px 24px rgba(255,0,51,0.4)'
                             }}
                             onMouseLeave={(e) => {
-                                e.target.style.transform = 'translateY(0)'
-                                e.target.style.boxShadow = 'none'
+                                e.currentTarget.style.transform = 'translateY(0)'
+                                e.currentTarget.style.boxShadow = 'none'
                             }}
                         >
-                            Admin Login
-                        </Link>
+                            Join Now
+                        </button>
                         <button
                             className="md:hidden"
                             onClick={() => setMobileOpen(!mobileOpen)}

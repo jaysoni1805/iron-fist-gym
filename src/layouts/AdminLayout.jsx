@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Outlet, NavLink, useNavigate } from 'react-router-dom'
+import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Zap, LayoutDashboard, Users, CalendarCheck, LogOut, Menu, X, ChevronRight, Mail } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -14,8 +14,10 @@ const navItems = [
 export default function AdminLayout() {
     const { signOut, user } = useAuth()
     const navigate = useNavigate()
+    const location = useLocation()
     const [sidebarOpen, setSidebarOpen] = useState(true)
     const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
 
     const handleLogout = async () => {
         await signOut()
@@ -124,7 +126,7 @@ export default function AdminLayout() {
                     )}
                 </AnimatePresence>
                 <button
-                    onClick={handleLogout}
+                    onClick={() => setShowLogoutConfirm(true)}
                     style={{
                         display: 'flex', alignItems: 'center', gap: 12,
                         width: '100%', padding: '11px 12px',
@@ -252,9 +254,95 @@ export default function AdminLayout() {
 
                 {/* Page content */}
                 <main style={{ flex: 1, padding: '32px 24px', minHeight: 0 }}>
-                    <Outlet />
+                    <motion.div
+                        key={location?.pathname}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                    >
+                        <Outlet />
+                    </motion.div>
                 </main>
             </div>
+
+            {/* Logout Confirmation Modal */}
+            <AnimatePresence>
+                {showLogoutConfirm && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setShowLogoutConfirm(false)}
+                        style={{
+                            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)',
+                            zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            backdropFilter: 'blur(4px)',
+                        }}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: 'easeOut' }}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                background: '#161616',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: 20, padding: '36px 40px',
+                                maxWidth: 400, width: '90%', textAlign: 'center',
+                                boxShadow: '0 32px 80px rgba(0,0,0,0.6)',
+                            }}
+                        >
+                            <div style={{
+                                width: 56, height: 56, borderRadius: '50%',
+                                background: 'rgba(255,0,51,0.1)', border: '1px solid rgba(255,0,51,0.25)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                margin: '0 auto 20px',
+                            }}>
+                                <LogOut size={24} color="#ff0033" />
+                            </div>
+                            <h3 style={{ color: 'white', fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 22, marginBottom: 10 }}>
+                                Confirm Logout
+                            </h3>
+                            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, marginBottom: 28, lineHeight: 1.6 }}>
+                                Are you sure you want to log out of the admin panel?
+                            </p>
+                            <div style={{ display: 'flex', gap: 12 }}>
+                                <button
+                                    onClick={() => setShowLogoutConfirm(false)}
+                                    style={{
+                                        flex: 1, padding: '12px',
+                                        background: 'rgba(255,255,255,0.06)',
+                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        borderRadius: 10, color: 'rgba(255,255,255,0.7)',
+                                        fontWeight: 600, cursor: 'pointer', fontSize: 14,
+                                        transition: 'all 0.2s',
+                                    }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleLogout}
+                                    style={{
+                                        flex: 1, padding: '12px',
+                                        background: 'linear-gradient(135deg, #ff0033, #cc0025)',
+                                        border: 'none', borderRadius: 10,
+                                        color: 'white', fontWeight: 600, cursor: 'pointer', fontSize: 14,
+                                        transition: 'opacity 0.2s',
+                                    }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85' }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }
